@@ -1,0 +1,339 @@
+#!/bin/sh
+
+. /usr/share/libubox/jshn.sh
+. /usr/lib/libesps/codemap.sh
+. /usr/lib/libesps/utils.sh
+. /usr/lib/smartware/sm_chip_common.sh
+
+
+#保存指定接口下的所有参数
+save_wan_info()
+{
+    # 删除ipv6中对应的section
+    uci delete ipv6."$1"
+
+    # 读取section下的所有数据
+    uci show network.$1 > /var/ipv6_savewaninfo
+    while read -r line
+    do
+        # dns为list需特殊处理
+        if echo "${line}" | grep -q 'dns' ;then
+            dnsNum=$(uci get network.$1.dns | awk '{print NF}')
+            for i in $(seq "${dnsNum}");do
+                dnsinfo=$(uci get network.$1.dns | awk -v x=${i} '{print $x}')
+                uci add_list ipv6.$1.dns="${dnsinfo}"
+            done
+        else
+            saveData=$(echo ${line/network/ipv6})
+            eval uci set ${saveData}
+        fi
+    done < /var/ipv6_savewaninfo
+    rm /var/ipv6_savewaninfo
+    uci commit ipv6
+
+    uci delete network.$1
+    uci set network.$1=interface
+    uci commit network    
+}
+
+revert_wan_info()
+{
+    
+    # 删除network中对应的section
+    uci delete network.$2
+
+    # 读取section下的所有数据
+    uci show ipv6.$2 > /var/ipv6_revertwaninfo
+    while read -r line
+    do
+        # dns为list需特殊处理
+        if echo "${line}" | grep -q 'dns' ;then
+            dnsNum=$(uci get ipv6.$2.dns | awk '{print NF}')
+            for i in $(seq "${dnsNum}");do
+                dnsinfo=$(uci get ipv6.$2.dns | awk -v x=${i} '{print $x}')
+                uci add_list network.$2.dns="${dnsinfo}"
+            done
+        else
+            revertData=$(echo ${line/ipv6/network})           
+            eval uci set ${revertData}
+        fi
+    
+    done < /var/ipv6_revertwaninfo
+    rm /var/ipv6_revertwaninfo
+
+    # 重新设置ifname，防止关闭期间切换了wan口模式
+    ipv4_workmode=$(uci get network."$1".proto)
+    if [ "pppoe" = "${ipv4_workmode}" ];then
+        wan_ifname="@""$1"
+    else
+        eval $(swinterface IF_GetWanIfNameByConfIfName "$1")
+        if [ "0" == "${if_ret}" ]; then
+            wan_ifname="${if_acWanIfName}"
+        else
+            wan_ifname="eth0"
+        fi
+    fi   
+    uci set network.$2.ifname="${wan_ifname}" 
+
+    uci commit network
+
+
+}
+
+save_lan_info()
+{
+    uci delete ipv6."$1".ip6prefix
+    uci delete ipv6."$1".ip6class
+    uci delete ipv6."$1".prefixsrc
+
+    lan_prefixsrc=$(uci get network."$1".prefixsrc)
+    if [ "custom" = "${lan_prefixsrc}" ];then
+        lan_ip6prefix=$(uci get network."$1".ip6prefix)
+        uci set ipv6."$1".ip6prefix="${lan_ip6prefix}"
+    fi
+
+    uci set ipv6."$1".prefixsrc="${lan_prefixsrc}"
+    
+    # ip6class可能有多条
+    classNum=$(uci get network.$1.ip6class | awk '{print NF}')
+    for i in $(seq "${classNum}");do
+        lan_ip6class=$(uci get network."$1".ip6class | awk -v x=${i} '{print $x}')
+        uci add_list ipv6."$1".ip6class="${lan_ip6class}"
+    done      
+
+    uci delete network."$1".ip6prefix
+    uci delete network."$1".ip6class
+    uci delete network."$1".prefixsrc
+    uci commit ipv6
+    uci commit network
+
+}
+
+revert_lan_info()
+{
+
+    uci delete network."$1".ip6prefix
+    uci delete network."$1".ip6class
+    uci delete network."$1".prefixsrc
+
+    lan_prefixsrc=$(uci get ipv6."$1".prefixsrc)
+    if [ "custom" = "${lan_prefixsrc}" ];then
+        lan_ip6prefix=$(uci get ipv6."$1".ip6prefix)
+        uci set network."$1".ip6prefix="${lan_ip6prefix}"
+    fi
+    uci set network."$1".prefixsrc="${lan_prefixsrc}"
+
+    # ip6class可能有多条
+    classNum=$(uci get ipv6.$1.ip6class | awk '{print NF}')
+    for i in $(seq "${classNum}");do
+        lan_ip6class=$(uci get ipv6.$1.ip6class | awk -v x=${i} '{print $x}')
+        uci add_list network."$1".ip6class="${lan_ip6class}"
+    done    
+
+    uci commit network
+
+}
+
+
+return_json()
+{
+    json_init
+    json_add_int "code" "$1"
+    json_add_string "message" "$(code_map "$1")"
+    json_add_object "data"
+    json_close_object
+    json_dump
+}
+
+
+case "$1" in
+	list)
+		echo '{ "set": {"ipv6":"String"},
+            "get": {},
+            }'
+	;; 
+	call)
+		case "$2" in
+            set)              
+                read -r input
+                json_load "${input}"
+
+                WANIFNAME="eth0"
+                if json_is_a status string;then
+                    json_get_var param_status status
+
+                    # 与当前status做比较，相同不处理，直接返回
+                    old_ipv6_enable=$(uci get ipv6.basic.enable)
+                    
+                    if [ "enable" = "${param_status}" ];then
+                        if [ 1 -eq ${old_ipv6_enable} ];then
+                            result=0
+                            return_json ${result}     
+                            return                              
+                        fi
+
+                        uci set ipv6.basic.enable="1"
+
+                        # 将所有wan接口都设置ipv6=1
+                        eval $(swinterface IF_GetAllWanInfo)
+                        if [ "0" == "${if_ret}" ]; then
+                            for iface in ${if_acConfIfnameList}
+                            do
+                                uci set network.${iface}.ipv6="1"    
+                            done
+
+                            for ifname in ${if_acIfNameList}
+                            do
+                                WANIFNAME="${ifname}"
+                                #获取第一个即可
+                                break;
+                            done
+                        else
+                            uci set network.wan.ipv6="1"
+                            WANIFNAME="eth0"
+                        fi 
+                        
+                        uci set ipv6.basic.enable="1"
+
+                        # 开启IPV6功能
+                        echo 0 > /proc/sys/net/ipv6/conf/all/disable_ipv6
+                        # 开启IPv6内核转发
+                        echo 2 > /proc/sys/net/ipv6/conf/all/forwarding
+                        # 强制接收路由器公告
+                        echo 2 > /proc/sys/net/ipv6/conf/all/accept_ra
+                        
+                        
+                        # 恢复lan的信息
+                        revert_lan_info "lan"
+
+                        # 恢复odhcp6c配置
+                        revert_wan_info "wan" "wan6" 
+
+                        ipv6Mode=$(uci get network.wan6.workmode)
+                        #桥接模式下不开启odhcpd进程
+                        if [ "bridge" == "${ipv6Mode}" ]; then
+                            lanIfname="$(uci get network.lan.ifname)"
+                            isExit=$(echo "${lanIfname}" | grep "${WANIFNAME}")
+                            [ -z "${isExit}" ] && {
+                                lanIfname=""${lanIfname}" "${WANIFNAME}""
+                                lanIfname="$(eval echo "${lanIfname}")"
+                                uci set network.lan.ifname="${lanIfname}"
+                            }
+                            ebtables -t broute -D BROUTING -i "${WANIFNAME}" -p ! ipv6 -j DROP 
+                            ebtables -t broute -A BROUTING -i "${WANIFNAME}" -p ! ipv6 -j DROP 
+                            
+                            #桥接模式下,关闭multicast_snooping
+                            sm_chip_disable_ipv6_multicaset_snooping
+
+                            /etc/init.d/odhcpd stop
+                        else
+
+                            #非桥接模式下,开启multicast_snooping
+                            sm_chip_enable_ipv6_multicaset_snooping
+                            # 重启odhcpd进程，配置为关闭前的配置
+                            /etc/init.d/odhcpd stop
+                            /etc/init.d/odhcpd start  
+                        fi
+                        
+                        printlog "LOG_INFO" "system" "IPv6功能开启" "Enable IPv6"
+
+                    elif [ "disable" = "${param_status}" ];then
+
+                        if [ 0 -eq ${old_ipv6_enable} ];then
+                            result=0
+                            return_json ${result}     
+                            return                              
+                        fi
+                        uci set ipv6.basic.enable="0"
+
+                        #非桥接模式下,开启multicast_snooping
+                        sm_chip_enable_ipv6_multicaset_snooping
+
+                        # 将所有wan接口都设置ipv6=1
+                        eval $(swinterface IF_GetAllWanInfo)
+                        if [ "0" == "${if_ret}" ]; then
+                            for iface in ${if_acConfIfnameList}
+                            do
+                                uci set network.${iface}.ipv6="0"    
+                            done
+
+                            for ifname in ${if_acIfNameList}
+                            do
+                                WANIFNAME="${ifname}"
+                                #获取第一个即可
+                                break;
+                            done
+                        else
+                            uci set network.wan.ipv6="0"
+                            WANIFNAME="eth0"
+                        fi 
+
+                        # 关闭IPv6功能
+                        echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
+                        # 关闭IPv6内核转发
+                        echo 1 > /proc/sys/net/ipv6/conf/all/forwarding
+                        # 强制接收路由器公告
+                        echo 2 > /proc/sys/net/ipv6/conf/all/accept_ra
+
+                        # 停止odhcpd进程
+                        /etc/init.d/odhcpd stop
+
+                        ipv6Mode=$(uci get network.wan6.workmode)
+                        if [ "bridge" == "${ipv6Mode}" ]; then
+                            lanIfname="$(uci get network.lan.ifname)"
+                            tmpIfname=""
+                            for ifname in ${lanIfname}
+                            do
+                                [ "${WANIFNAME}" != "${ifname}" ] && tmpIfname=""${tmpIfname}" "${ifname}""
+                            done
+                            tmpIfname="$(eval echo "${tmpIfname}")"
+                            uci set network.lan.ifname="${tmpIfname}"
+                            ebtables -t broute -D BROUTING -i "${WANIFNAME}" -p ! ipv6 -j DROP 
+                        fi
+
+                        # 备份lan口信息
+                        save_lan_info "lan"
+                        # 备份wan口信息
+                        save_wan_info "wan6"
+                        
+                        printlog "LOG_INFO" "system" "IPv6功能关闭" "Disable IPv6"
+                    else
+                        result=4
+                        return_json ${result}     
+                        return   
+                    fi                 
+                else
+                    result=4
+                    return_json ${result}
+                    return                
+                fi
+                
+                uci commit network
+                uci commit ipv6
+                # 重启network
+                "$(ubus call reload reload_config "{\"config\":\"network\",\"method\":\"reload\",\"status\":0}")"
+                result=0
+                return_json ${result}
+                return
+                
+
+			;;
+            get)
+                    ipv6_enable=$(uci get ipv6.basic.enable)
+                    result=0
+                    json_init
+                    json_add_int "code" ${result}
+                    json_add_string "message" "$(eval code_map ${result})"
+                    json_add_object "data"
+                    if [ 0 -eq $ipv6_enable ];then
+                        json_add_string "status" "disable"
+                    elif [ 1 -eq $ipv6_enable ];then
+                        json_add_string "status" "enable"
+                    fi               
+                    json_close_object
+                    json_dump
+                    return     
+            ;;
+		esac
+        ;;
+esac
