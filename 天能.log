@@ -1,0 +1,1246 @@
+﻿
+2&JK-OLT1#
+2&JK-OLT1#show run
+2&JK-OLT1#show running-config
+!<mim>
+!configuration saved in zdb mode at 11:33:41 on Thu Nov 7 2024
+!configuration saved in txt mode at 11:33:41 on Thu Nov 7 2024
+!last configuration change at 11:33:15 on Thu Nov 7 2024
+!</mim>
+!<system-config>
+hostname 2&JK-OLT1
+!</system-config>
+!<if-intf>
+interface gpon_olt-1/1/1
+$
+interface gpon_olt-1/1/2
+$
+interface gpon_olt-1/1/3
+$
+interface gpon_olt-1/1/4
+$
+interface gpon_olt-1/1/5
+$
+interface gpon_olt-1/1/6
+$
+interface gpon_olt-1/1/7
+$
+interface gpon_olt-1/1/8
+$
+interface gpon_olt-1/1/9
+$
+interface gpon_olt-1/1/10
+$
+interface gpon_olt-1/1/11
+$
+interface gpon_olt-1/1/12
+$
+interface gpon_olt-1/1/13
+$
+interface gpon_olt-1/1/14
+$
+interface gpon_olt-1/1/15
+$
+interface gpon_olt-1/1/16
+$
+interface gpon_onu-1/1/13:1
+$
+interface gpon_onu-1/1/13:2
+$
+interface gpon_onu-1/1/13:3
+$        
+interface gpon_onu-1/1/13:4
+$
+interface gpon_onu-1/1/13:5
+$
+interface gpon_onu-1/1/13:6
+$
+interface gpon_onu-1/1/13:7
+$
+interface gpon_onu-1/1/13:8
+$
+interface gpon_onu-1/1/13:9
+$
+interface gpon_onu-1/1/13:10
+$
+interface gpon_onu-1/1/14:1
+$
+interface gpon_onu-1/1/14:2
+$
+interface gpon_onu-1/1/14:3
+$
+interface gpon_onu-1/1/14:4
+$
+interface gpon_onu-1/1/14:5
+$
+interface gpon_onu-1/1/14:6
+$
+interface gpon_onu-1/1/14:7
+$
+interface gpon_onu-1/1/14:8
+$
+interface gpon_onu-1/1/14:9
+$
+interface gpon_onu-1/1/14:10
+$
+interface gpon_onu-1/1/14:11
+$
+interface gpon_onu-1/1/14:12
+$
+interface gpon_onu-1/1/14:13
+$
+interface gpon_onu-1/1/14:14
+$
+interface gpon_onu-1/1/14:15
+$
+interface gpon_onu-1/1/14:16
+$        
+interface vport-1/1/13.1:1
+$
+interface vport-1/1/13.2:1
+$
+interface vport-1/1/13.3:1
+$
+interface vport-1/1/13.4:1
+$
+interface vport-1/1/13.5:1
+$
+interface vport-1/1/13.6:1
+$
+interface vport-1/1/13.7:1
+$
+interface vport-1/1/13.8:1
+$
+interface vport-1/1/13.9:1
+$
+interface vport-1/1/13.10:1
+$
+interface vport-1/1/14.1:1
+$
+interface vport-1/1/14.2:1
+$
+interface vport-1/1/14.3:1
+$
+interface vport-1/1/14.4:1
+$
+interface vport-1/1/14.5:1
+$
+interface vport-1/1/14.6:1
+$
+interface vport-1/1/14.7:1
+$
+interface vport-1/1/14.8:1
+$
+interface vport-1/1/14.9:1
+$
+interface vport-1/1/14.10:1
+$
+interface vport-1/1/14.11:1
+$
+interface vport-1/1/14.12:1
+$
+interface vport-1/1/14.13:1
+$        
+interface vport-1/1/14.14:1
+$
+interface vport-1/1/14.15:1
+$
+interface vport-1/1/14.16:1
+$
+interface xgei-1/5/1
+$
+interface xgei-1/5/2
+$
+interface xgei-1/5/3
+$
+interface xgei-1/5/4
+  no shutdown
+$
+interface xgei-1/6/1
+$
+interface xgei-1/6/2
+$
+interface xgei-1/6/3
+$
+interface xgei-1/6/4
+  no shutdown
+$
+interface mgmt_eth
+  ip address 136.1.1.100 255.255.255.0
+$
+interface vlan590
+  ip address 172.22.190.71 255.255.255.0
+$
+interface null1
+$
+interface smartgroup1
+$
+!</if-intf>
+!<lacp>
+lacp
+  interface smartgroup1
+    lacp mode 802.3ad
+    lacp load-balance src-mac
+  $
+  interface xgei-1/5/4
+    smartgroup 1 mode passive
+  $
+  interface xgei-1/6/4
+    smartgroup 1 mode passive
+  $
+$
+!</lacp>
+!<system-user>
+login block 900 attempts 30 within 120
+login on-failure alarm
+system-user
+  authorization-template 1
+    bind aaa-authorization-template 2001
+    local-privilege-level 15
+  $
+  authentication-template 1
+    bind aaa-authentication-template 2001
+  $
+  global-user-aging day 90
+  user-authen-restriction fail-time 10 lock-minute 15
+  user-name zte
+    bind authentication-template 1
+    bind authorization-template 1
+    password encrypted *21*Cd9FBNz0tjJfcP3wokRPCaJETwmiRE8JokRPCRE26GnaCvgg8WG1b
+QfOXkPRXocYXx+zqGB0I8v7a+vka/BCzlhPQosp/Ltyq5NYVkx+tz0/5uSgG9jbbR3rreISz7qBphkBu
+wwgmb11kJYn
+  $      
+  strong-username min-len 3
+  strong-password length 8 character-set-num 3
+  strong-password date-check enable
+  strong-password username-related-chk substring inverse
+  strong-password check disable
+$
+!</system-user>
+!<aaa>
+aaa-authentication-template 2001
+  aaa-authentication-type local
+$
+aaa-authorization-template 2001
+  aaa-authorization-type local
+$
+!</aaa>
+!<stp>
+spantree
+$
+!</stp>
+!<ssh>
+ssh server enable
+!</ssh>
+!<xpon>  
+pon
+  onu-type E801P-8G gpon description 8GE ex-omci enable speed-mode gpon
+  onu-type CESHI gpon description 4FE,2POST
+  onu-type B6006C gpon description 2GE ex-omci enable speed-mode gpon
+  onu-type-if E801P-8G eth_0/1
+  onu-type-if E801P-8G eth_0/2
+  onu-type-if E801P-8G eth_0/3
+  onu-type-if E801P-8G eth_0/4
+  onu-type-if E801P-8G eth_0/5
+  onu-type-if E801P-8G eth_0/6
+  onu-type-if E801P-8G eth_0/7
+  onu-type-if E801P-8G eth_0/8
+  onu-type-if CESHI eth_0/1
+  onu-type-if CESHI eth_0/2
+  onu-type-if CESHI pots_0/1
+  onu-type-if CESHI pots_0/2
+  onu-type-if CESHI eth_0/3
+  onu-type-if CESHI eth_0/4
+  onu-type-if B6006C eth_0/1
+  onu-type-if B6006C eth_0/2
+  uncfg-onu-display-info sn pw loid
+  onu-profile gpon line 1
+    vport-mode manual
+    vport 1 name test map-type vlan
+  $
+  protection group 1 dual-parenting-work local-port gpon_olt-1/1/1 peer-port gpo
+n_olt-1/1/1 peer-ip 172.22.190.72 typeB
+  protection group 2 dual-parenting-work local-port gpon_olt-1/1/2 peer-port gpo
+n_olt-1/1/2 peer-ip 172.22.190.72 typeB
+  protection group 3 dual-parenting-work local-port gpon_olt-1/1/3 peer-port gpo
+n_olt-1/1/3 peer-ip 172.22.190.72 typeB
+  protection group 4 dual-parenting-work local-port gpon_olt-1/1/4 peer-port gpo
+n_olt-1/1/4 peer-ip 172.22.190.72 typeB
+  protection group 5 dual-parenting-work local-port gpon_olt-1/1/5 peer-port gpo
+n_olt-1/1/5 peer-ip 172.22.190.72 typeB
+  protection group 6 dual-parenting-work local-port gpon_olt-1/1/6 peer-port gpo
+n_olt-1/1/6 peer-ip 172.22.190.72 typeB
+  protection group 7 dual-parenting-work local-port gpon_olt-1/1/7 peer-port gpo
+n_olt-1/1/7 peer-ip 172.22.190.72 typeB
+  protection group 8 dual-parenting-work local-port gpon_olt-1/1/8 peer-port gpo
+n_olt-1/1/8 peer-ip 172.22.190.72 typeB
+  protection group 9 dual-parenting-work local-port gpon_olt-1/1/9 peer-port gpo
+n_olt-1/1/9 peer-ip 172.22.190.72 typeB
+  protection group 10 dual-parenting-work local-port gpon_olt-1/1/11 peer-port g
+pon_olt-1/1/11 peer-ip 172.22.190.72 typeB
+  protection group 11 dual-parenting-work local-port gpon_olt-1/1/12 peer-port g
+pon_olt-1/1/12 peer-ip 172.22.190.72 typeB
+  protection group 12 dual-parenting-work local-port gpon_olt-1/1/13 peer-port g
+pon_olt-1/1/13 peer-ip 172.22.190.72 typeB
+  protection group 13 dual-parenting-work local-port gpon_olt-1/1/14 peer-port g
+pon_olt-1/1/14 peer-ip 172.22.190.72 typeB
+  protection group 14 dual-parenting-work local-port gpon_olt-1/1/15 peer-port g
+pon_olt-1/1/15 peer-ip 172.22.190.72 typeB
+  protection group 15 dual-parenting-work local-port gpon_olt-1/1/16 peer-port g
+pon_olt-1/1/16 peer-ip 172.22.190.72 typeB
+$
+interface gpon_olt-1/1/1
+  resource-id-assign-mode mode2
+$
+interface gpon_olt-1/1/2
+  resource-id-assign-mode mode2
+$
+interface gpon_olt-1/1/3
+  resource-id-assign-mode mode2
+$
+interface gpon_olt-1/1/4
+  resource-id-assign-mode mode2
+$
+interface gpon_olt-1/1/5
+  resource-id-assign-mode mode2
+$
+interface gpon_olt-1/1/6
+  resource-id-assign-mode mode2
+$
+interface gpon_olt-1/1/7
+  resource-id-assign-mode mode2
+$
+interface gpon_olt-1/1/8
+  resource-id-assign-mode mode2
+$
+interface gpon_olt-1/1/9
+  resource-id-assign-mode mode2
+$
+interface gpon_olt-1/1/10
+  resource-id-assign-mode mode2
+$
+interface gpon_olt-1/1/11
+  resource-id-assign-mode mode2
+$
+interface gpon_olt-1/1/12
+  resource-id-assign-mode mode2
+$        
+interface gpon_olt-1/1/13
+  onu 1 type E801P-8G sn ZTEG90095602
+  onu 2 type E801P-8G sn ZTEG900955FB
+  onu 3 type E801P-8G sn ZTEG90088466
+  onu 4 type E801P-8G sn ZTEG9008848C
+  onu 5 type E801P-8G sn ZTEG90088483
+  onu 6 type E801P-8G sn ZTEG9008846C
+  onu 7 type E801P-8G sn ZTEG90088453
+  onu 8 type E801P-8G sn ZTEG90088473
+  onu 9 type E801P-8G sn ZTEG9008846E
+  onu 10 type E801P-8G sn ZTEG90088484
+  name CQ#JK-ONU28
+  resource-id-assign-mode mode4
+$
+interface gpon_olt-1/1/14
+  onu 1 type E801P-8G sn ZTEG9008848B
+  onu 2 type E801P-8G sn ZTEG90088490
+  onu 3 type E801P-8G sn ZTEG90088468
+  onu 4 type E801P-8G sn ZTEG9008848A
+  onu 5 type E801P-8G sn ZTEG90088482
+  onu 6 type E801P-8G sn ZTEG9008849F
+  onu 7 type E801P-8G sn ZTEG900884D8
+  onu 8 type E801P-8G sn ZTEG900884A0
+  onu 9 type E801P-8G sn ZTEG900884A1
+  onu 10 type E801P-8G sn ZTEG90088467
+  onu 11 type E801P-8G sn ZTEG9008847C
+  onu 12 type E801P-8G sn ZTEG90088479
+  onu 13 type E801P-8G sn ZTEG900884D9
+  onu 14 type E801P-8G sn ZTEG9008843C
+  onu 15 type E801P-8G sn ZTEG9008846B
+  onu 16 type E801P-8G sn ZTEG90088492
+  resource-id-assign-mode mode4
+$
+interface gpon_olt-1/1/15
+  resource-id-assign-mode mode2
+$
+interface gpon_olt-1/1/16
+  resource-id-assign-mode mode2
+$
+interface gpon_onu-1/1/13:1
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 256 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 256 tcont 2
+$
+interface gpon_onu-1/1/13:2
+  name ********
+  description ********
+  tcont 2 name Tl1DefaultCreate allocid 257 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 257 tcont 2
+$
+interface gpon_onu-1/1/13:3
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 258 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 258 tcont 2
+$
+interface gpon_onu-1/1/13:4
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 259 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 259 tcont 2
+$
+interface gpon_onu-1/1/13:5
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 260 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 260 tcont 2
+$
+interface gpon_onu-1/1/13:6
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 261 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 261 tcont 2
+$
+interface gpon_onu-1/1/13:7
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 262 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 262 tcont 2
+$
+interface gpon_onu-1/1/13:8
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 263 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 263 tcont 2
+$
+interface gpon_onu-1/1/13:9
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 264 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 264 tcont 2
+$
+interface gpon_onu-1/1/13:10
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 265 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 265 tcont 2
+$
+interface gpon_onu-1/1/14:1
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 256 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 256 tcont 2
+$
+interface gpon_onu-1/1/14:2
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 257 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 271 tcont 2
+$
+interface gpon_onu-1/1/14:3
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 258 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 257 tcont 2
+$
+interface gpon_onu-1/1/14:4
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 259 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 258 tcont 2
+$
+interface gpon_onu-1/1/14:5
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 260 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 259 tcont 2
+$        
+interface gpon_onu-1/1/14:6
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 261 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 260 tcont 2
+$
+interface gpon_onu-1/1/14:7
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 262 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 261 tcont 2
+$
+interface gpon_onu-1/1/14:8
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 263 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 262 tcont 2
+$
+interface gpon_onu-1/1/14:9
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 264 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 263 tcont 2
+$
+interface gpon_onu-1/1/14:10
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 265 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 264 tcont 2
+$
+interface gpon_onu-1/1/14:11
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 266 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 265 tcont 2
+$
+interface gpon_onu-1/1/14:12
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 267 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 266 tcont 2
+$
+interface gpon_onu-1/1/14:13
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 268 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 267 tcont 2
+$
+interface gpon_onu-1/1/14:14
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 269 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 268 tcont 2
+$
+interface gpon_onu-1/1/14:15
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 270 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 269 tcont 2
+$
+interface gpon_onu-1/1/14:16
+  name ********
+  tcont 2 name Tl1DefaultCreate allocid 271 profile FTTH1000M
+  gemport 1 name Tl1DefaultCreate portid 270 tcont 2
+$
+gpon
+  profile tcont FTTB type 3 assured 10240 maximum 512000
+  profile tcont FTTN type 3 assured 10240 maximum 512000
+  profile tcont FTTH100M type 3 assured 10240 maximum 133120
+  profile tcont FTTH1000M type 3 assured 15000 maximum 1228800
+  profile tcont 1M_ZX type 4 maximum 1336
+  profile tcont 2M_ZX type 4 maximum 2672
+  profile tcont 4M_ZX type 4 maximum 5344
+  profile tcont 6M_ZX type 4 maximum 8016
+  profile tcont 8M_ZX type 4 maximum 10688
+  profile tcont 10M_ZX type 4 maximum 13360
+  profile tcont 20M_ZX type 3 assured 10240 maximum 26720
+  profile tcont 30M_ZX type 3 assured 10240 maximum 40080
+  profile tcont 40M_ZX type 3 assured 10240 maximum 53440
+  profile tcont 50M_ZX type 3 assured 10240 maximum 66800
+  profile tcont 60M_ZX type 3 assured 10240 maximum 80160
+  profile tcont 80M_ZX type 3 assured 10240 maximum 106880
+  profile tcont 100M_ZX type 3 assured 10240 maximum 133600
+  profile tcont 200M_ZX type 3 assured 10240 maximum 267200
+  profile tcont 300M_ZX type 3 assured 10240 maximum 400800
+  profile tcont 400M_ZX type 3 assured 10240 maximum 534400
+  profile tcont 500M_ZX type 3 assured 10240 maximum 668000
+  profile tcont 600M_ZX type 3 assured 10240 maximum 801600
+  profile tcont 800M_ZX type 3 assured 10240 maximum 1068800
+  profile tcont 1000M_ZX type 3 assured 10240 maximum 1228810
+$
+pon-onu-mng gpon_onu-1/1/13:1
+  mgmt-ip 172.22.188.28 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 
+172.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/13:2
+  mgmt-ip 172.22.188.27 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 
+172.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/13:3
+  mgmt-ip 172.22.188.5 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 1
+72.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/13:4
+  mgmt-ip 172.22.188.6 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 1
+72.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/13:5
+  mgmt-ip 172.22.188.14 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 
+172.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/13:6
+  mgmt-ip 172.22.188.18 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 
+172.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/13:7
+  mgmt-ip 172.22.188.19 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 
+172.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/13:8
+  mgmt-ip 172.22.188.22 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 
+172.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/13:9
+  mgmt-ip 172.22.188.23 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 
+172.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/13:10
+  mgmt-ip 172.22.188.24 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 
+172.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/14:1
+  mgmt-ip 172.22.188.1 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 1
+72.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/14:2
+  mgmt-ip 172.22.188.3 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 1
+72.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/14:3
+  mgmt-ip 172.22.188.4 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 1
+72.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$        
+pon-onu-mng gpon_onu-1/1/14:4
+  mgmt-ip 172.22.188.7 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 1
+72.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/14:5
+  mgmt-ip 172.22.188.9 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 1
+72.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/14:6
+  mgmt-ip 172.22.188.10 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 
+172.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/14:7
+  mgmt-ip 172.22.188.11 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 
+172.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/14:8
+  mgmt-ip 172.22.188.12 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 
+172.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/14:9
+  mgmt-ip 172.22.188.13 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 
+172.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/14:10
+  mgmt-ip 172.22.188.15 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 
+172.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/14:11
+  mgmt-ip 172.22.188.16 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 
+172.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/14:12
+  mgmt-ip 172.22.188.17 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 
+172.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/14:13
+  mgmt-ip 172.22.188.20 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 
+172.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/14:14
+  mgmt-ip 172.22.188.21 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 
+172.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/14:15
+  mgmt-ip 172.22.188.2 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 1
+72.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+pon-onu-mng gpon_onu-1/1/14:16
+  mgmt-ip 172.22.188.8 255.255.255.0 vlan 588 priority 7 route 0.0.0.0 0.0.0.0 1
+72.22.188.254 host 1
+  security-mgmt 1 state enable mode forward protocol telnet https 
+  switch switch_0/1 local-switch disable
+  service 1 gemport 1
+  vlan port eth_0/1 mode hybrid def-vlan 570
+  vlan port eth_0/2 mode hybrid def-vlan 570
+  vlan port eth_0/3 mode hybrid def-vlan 570
+  vlan port eth_0/4 mode hybrid def-vlan 570
+  vlan port eth_0/5 mode hybrid def-vlan 570
+  vlan port eth_0/6 mode hybrid def-vlan 570
+  vlan port eth_0/7 mode hybrid def-vlan 570
+  vlan port eth_0/8 mode hybrid def-vlan 570
+$
+!</xpon>
+!<alarm>
+logging file default almlog
+  accept on
+$
+logging file default cmdlog
+  buffer 1000
+$
+logging file default netclog
+  accept on
+$
+logging file default snmplog
+  accept on
+$
+logging file default srvlog
+  accept on
+  interval 10
+$
+logging file default weblog
+  accept on
+$
+logging snmp
+  accept on
+  match cmdlog
+$
+!</alarm>
+!<static>
+ip route 0.0.0.0 0.0.0.0 172.22.190.254
+!</static>
+!<MSAN>
+ecmp-mode srcip-dstip
+add-card rackno 1 shelfno 1 slotno 1 GFGH
+interface gpon_olt-1/1/1
+  no shutdown
+$        
+interface gpon_olt-1/1/2
+  no shutdown
+$
+interface gpon_olt-1/1/3
+  no shutdown
+$
+interface gpon_olt-1/1/4
+  no shutdown
+$
+interface gpon_olt-1/1/5
+  no shutdown
+$
+interface gpon_olt-1/1/6
+  no shutdown
+$
+interface gpon_olt-1/1/7
+  no shutdown
+$
+interface gpon_olt-1/1/8
+  no shutdown
+$
+interface gpon_olt-1/1/9
+  no shutdown
+$
+interface gpon_olt-1/1/10
+  no shutdown
+$
+interface gpon_olt-1/1/11
+  no shutdown
+$
+interface gpon_olt-1/1/12
+  no shutdown
+$
+interface gpon_olt-1/1/13
+  no shutdown
+$
+interface gpon_olt-1/1/14
+  no shutdown
+$
+interface gpon_olt-1/1/15
+  no shutdown
+$
+interface gpon_olt-1/1/16
+  no shutdown
+$
+interface vport-1/1/13.1:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/13.2:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/13.3:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/13.4:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/13.5:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/13.6:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/13.7:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/13.8:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$        
+interface vport-1/1/13.9:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/13.10:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/14.1:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/14.2:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/14.3:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/14.4:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/14.5:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/14.6:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/14.7:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/14.8:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/14.9:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/14.10:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/14.11:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/14.12:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/14.13:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/14.14:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/14.15:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface vport-1/1/14.16:1
+  service-port 1 user-begin-vlan 528 user-end-vlan 591 transparent
+$
+interface xgei-1/5/1
+  switchport mode trunk
+$
+interface xgei-1/5/2
+  switchport mode trunk
+$
+interface xgei-1/5/3
+  switchport mode trunk
+$
+interface xgei-1/5/4
+  switchport mode trunk
+  switchport vlan 528-591 tag
+$
+interface xgei-1/6/1
+  switchport mode trunk
+$
+interface xgei-1/6/2
+  switchport mode trunk
+$
+interface xgei-1/6/3
+  switchport mode trunk
+$
+interface xgei-1/6/4
+  switchport mode trunk
+  switchport vlan 528-591 tag
+$
+interface smartgroup1
+  switchport mode trunk
+  switchport vlan 528-591 tag
+$
+tpid outer 0x8100,0x88a8 inner 0x8100
+vlan list 1,528-591
+$
+vlan 528
+$
+vlan 529
+$
+vlan 530 
+$
+vlan 531
+$
+vlan 532
+$
+vlan 533
+$
+vlan 534
+$
+vlan 535
+$
+vlan 536
+$
+vlan 537
+$
+vlan 538
+$
+vlan 539
+$
+vlan 540
+$
+vlan 541
+$        
+vlan 542
+$
+vlan 543
+$
+vlan 544
+$
+vlan 545
+$
+vlan 546
+$
+vlan 547
+$
+vlan 548
+$
+vlan 549
+$
+vlan 550
+$
+vlan 551
+$
+vlan 552
+$
+vlan 553 
+$
+vlan 554
+$
+vlan 555
+$
+vlan 556
+$
+vlan 557
+$
+vlan 558
+$
+vlan 559
+$
+vlan 560
+$
+vlan 561
+$
+vlan 562
+$
+vlan 563
+$
+vlan 564
+$        
+vlan 565
+$
+vlan 566
+$
+vlan 567
+$
+vlan 568
+$
+vlan 569
+$
+vlan 570
+$
+vlan 571
+$
+vlan 572
+$
+vlan 573
+$
+vlan 574
+$
+vlan 575
+$
+vlan 576 
+$
+vlan 577
+$
+vlan 578
+$
+vlan 579
+$
+vlan 580
+$
+vlan 581
+$
+vlan 582
+$
+vlan 583
+$
+vlan 584
+$
+vlan 585
+$
+vlan 586
+$
+vlan 587
+$        
+vlan 588
+$
+vlan 589
+$
+vlan 590
+$
+vlan 591
+$
+vlan 1
+$
+ip-service mac-forced-forwarding enable
+ip-service mac-forced-forwarding vlan 552 gateway 172.22.153.254
+ip-service mac-forced-forwarding vlan 582 gateway 172.22.182.254
+ip-service mac-forced-forwarding vlan 572 gateway 172.22.172.254
+ip-service mac-forced-forwarding vlan 588 gateway 172.22.188.254
+qos queue-number 8
+quick-ping enable
+discard-packet-mode disable
+set-pnp enable
+!</MSAN>
+2&JK-OLT1#                          write
+..[OK].
